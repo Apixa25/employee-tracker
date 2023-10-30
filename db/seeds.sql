@@ -4,17 +4,17 @@ VALUES
 ('Sales'),
 ('Marketing'),
 ('Operations'),
-('Maintenance');
+('Maintenance'),
 ('Human Resources'),
 ('Finance AR & AP'),
 ('Product Engineering'),
 ('Research and Development'),
-('Legal'),
+('Legal');
 
 
 INSERT INTO roles (title, salary, department_id)
 VALUES 
-('Chief Executive Officer', 1435000.00, 1),
+('Chief Executive Officer', 435000.00, 1),
 ('Sales Manager', 610000.00, 2),
 ('Marketing Director', 242000.00, 3),
 ('Operations Head', 143000.00, 4),
@@ -23,7 +23,7 @@ VALUES
 ('Finance Manager', 185000.00, 7),
 ('Head Engineer', 190000, 8),
 ('Research and Development Manager ', 190000.00, 9),
-('Head of Legal', 210000.00, 10),
+('Head of Legal', 210000.00, 10);
 
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
