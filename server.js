@@ -43,7 +43,7 @@ function start() {
                     viewAllEmployees();
                     break;
                     case "View all roles":
-                        viewAllRoles();
+                        allRoles();
                         break;
                     case "Add Employee":
                         addEmployee();
@@ -63,7 +63,7 @@ function start() {
                     case "Add a Department":
                         addADepartment();
                         break;
-                    case "EXIT":
+                    case "Exit":
                         connection.end();
                         console.log("Thank you have a great day!");
                         break;
@@ -73,7 +73,9 @@ function start() {
 // function to view all employees
 function viewAllEmployees() {
     const query = `
-    SELECT e.id, e.first_name, e.last_name, r.title, d.department_name, r.salary, CONCAT(m.first_name, ' ', m.last_name) As manager_name
+    SELECT e.id, e.first_name, e.last_name, r.title, 
+    d.department_name, r.salary, CONCAT(m.first_name, ' ', m.last_name) 
+    As manager_name
     FROM employee e
     LEFT JOIN roles r ON e.role_id = r.id
     LEFT JOIN departments d ON r.department_id = d.id
@@ -83,5 +85,94 @@ function viewAllEmployees() {
         if (err) throw err;
         console.table(res);
         start();
+    });
+}
+// function to view all roles in the company
+function allRoles() {
+    const query = "SELECT roles.title, roles.id, departments.department_name, roles.salary from roles join departments on roles.department_id = departments.id";
+    connection.query(query, (err, res) => {
+        if (err) throw err;
+        console.table(res);
+        start();
+    });
+
+}
+// function to add employee
+function addEmployee() {
+    // give the new employee a role
+    connection.query("SELECT id, title FROM roles", (error, results) => {
+        if (error) {
+            console.error(error);
+            return;
+        }
+        const roles = results.map(({ id, title }) => ({
+            name: title,
+            value: id,
+        }));
+        // from the existing managers you can give the new employee a manager
+        connection.query(
+            'SELECT id, CONCAT(first_name, " ", last_name) AS name FROM employee',
+            (error, results) => {
+                if (error) {
+                    console.error(error);
+                    return;
+                }
+                const managers = results.map(({ id, name }) => ({
+                    name,
+                    value: id,
+                }));
+                // enter the new employees info
+                inquirer
+                    .prompt([
+                        {
+                            type: "input",
+                            name: "firstName",
+                            message: "Enter the employee's first name:",
+                        },
+                        {
+                            type: "input",
+                            name: "lastName",
+                            message: "Enter the employee's last name:",
+                        },
+                        {
+                            type: "list",
+                            name: "roleId",
+                            message: "Select the employee role:",
+                            choices: roles,
+                        },
+                        {
+                            type: "list",
+                            name: "managerId",
+                            message: "Select the employee manager:",
+                            choices: [
+                                { name: "None", value: null },
+                                ...managers,
+                            ],
+                        },
+                    ])
+                    .then((answers) => {
+                        // Insert the employee into the database
+                        const sql =
+                            "INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)";
+                        const values = [
+                            answers.firstName,
+                            answers.lastName,
+                            answers.roleId,
+                            answers.managerId,
+                        ];
+                        connection.query(sql, values, (error) => {
+                            if (error) {
+                                console.error(error);
+                                return;
+                            }
+                            console.log("Employee added successfully");
+                            start();
+                        });
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            }
+        );
     });
 }
