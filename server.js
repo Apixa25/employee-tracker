@@ -1,10 +1,11 @@
+// required dependencies 
 const inquirer = require("inquirer");
 const mysql = require("mysql2");
 
 // connect to MySQL
 const connection = mysql.createConnection({
     host: "localhost",
-    port: 3306,
+    port: 3306, // i currently have no idea why this is the only port I can get to work?
     user: "root",
     password: "password",
     database: "eTrack_db",
@@ -14,8 +15,10 @@ const connection = mysql.createConnection({
 connection.connect((err) => {
     if (err) throw err;
     console.log("Congratulations your onnected to the database! On Port 3306");
+    start();
 });
 
+// this starts inquirer to begin asking the user questions
 function start() {
     inquirer
         .prompt({
@@ -34,5 +37,36 @@ function start() {
                 
             ]
         })
-        .then
+        .then((answer) => {
+            switch (answer.action) {
+                case "View all Employees":
+                    viewAllEmployees();
+                    break;
+                    case "View all roles":
+                        viewAllRoles();
+                        break;
+                    case "Add Employee":
+                        addEmployee();
+                        break;
+                    case "View all Roles":
+                        viewAllRoles();
+                        break;
+                    case "Update Employee Role":
+                        updateEmployeeRole();
+                        break;
+                    case "Add a Role":
+                        addARole();
+                        break;
+                    case "View all Departments":
+                        viewAllDepartments();
+                        break;
+                    case "Add a Department":
+                        addADepartment();
+                        break;
+                    case "EXIT":
+                        connection.end();
+                        console.log("Thank you have a great day!");
+                        break;
+            }
+        });
 }
