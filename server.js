@@ -42,14 +42,11 @@ function start() {
                 case "View all Employees":
                     viewAllEmployees();
                     break;
-                    case "View all roles":
-                        allRoles();
-                        break;
                     case "Add Employee":
                         addEmployee();
                         break;
                     case "View all Roles":
-                        viewAllRoles();
+                        allRoles();
                         break;
                     case "Update Employee Role":
                         updateEmployeeRole();
@@ -174,5 +171,15 @@ function addEmployee() {
                     });
             }
         );
+    });
+}
+// function to view all departments
+function viewAllDepartments() {
+    const query = "SELECT * FROM departments";
+    connection.query(query, (err, res) => {
+        if (err) throw err;
+        console.table(res);
+        // restart the application
+        start();
     });
 }
