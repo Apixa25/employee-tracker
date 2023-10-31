@@ -180,6 +180,7 @@ function viewAllDepartments() {
     start();
   });
 }
+// this function allows the user to change the employees role in the company
 function updateEmployeeRole() {
   const queryEmployees =
     "SELECT employee.id, employee.first_name, employee.last_name, roles.title FROM employee LEFT JOIN roles ON employee.role_id = roles.id";
@@ -225,6 +226,7 @@ function updateEmployeeRole() {
     });
   });
 }
+// add a role to the company roles list
 function addARole() {
   const query = "SELECT * FROM departments";
   connection.query(query, (err, res) => {
@@ -271,4 +273,23 @@ function addARole() {
         );
       });
   });
+}
+function addADepartment() {
+    inquirer
+        .prompt({
+            type: "input",
+            name: "name",
+            message: "Enter the name of the new department:",
+        })
+        .then((answer) => {
+            console.log(answer.name);
+            const query = `INSERT INTO departments (department_name) VALUES ("${answer.name}")`;
+            connection.query(query, (err, res) => {
+                if (err) throw err;
+                console.log(`Added department ${answer.name} to the database!`);
+                // restart the application
+                start();
+                console.log(answer.name);
+            });
+        });
 }
