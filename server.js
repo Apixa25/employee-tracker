@@ -13,7 +13,26 @@ const connection = mysql.createConnection({
 // connect to the database
 connection.connect((err) => {
     if (err) throw err;
-    console.log("Connected to the database!");
-    // start the application
-//     start();
+    console.log("Congratulations your onnected to the database! On Port 3306");
 });
+
+function start() {
+    inquirer
+        .prompt({
+            type: "list",
+            name: "action",
+            message: "Choose an action",
+            choices: [
+                "View all Employees",
+                "Add Employee",
+                "View All Roles",
+                "Update Employee Role",
+                "Add a Role",
+                "View all Departments",
+                "Add a Department",
+                "Exit"
+                
+            ]
+        })
+        .then
+}
