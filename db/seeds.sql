@@ -24,14 +24,16 @@ VALUES
 ('Head Engineer', 190000, 8),
 ('Research and Development Manager ', 190000.00, 9),
 ('Head of Legal', 210000.00, 10),
-('Marketing', 90000.00, 3),
-('Operations', 65000.00, 4),
-('Maintenance', 45000.00, 5),
-('Human Resources', 67000.00, 6),
-('Finance', 72000.00, 7),
+('Sales Person', 74000.00, 2),
+('Marketing Person', 90000.00, 3),
+('Operations Person', 65000.00, 4),
+('Maintenance Person', 45000.00, 5),
+('Human Resources Person', 67000.00, 6),
+('Finance/CPA', 72000.00, 7),
 ('Engineer', 84000, 8),
-('Research and Development', 68000.00, 9),
-('Legal', 78000.00, 10);
+('R&D Person', 68000.00, 9),
+('Attorney', 78000.00, 10),
+('Paralegal', 56000.00, 10);
 
 
 
