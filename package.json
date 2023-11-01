@@ -17,8 +17,8 @@
   },
   "homepage": "https://github.com/Apixa25/employee-tracker#readme",
   "dependencies": {
+    "cfonts": "^3.2.0",
     "inquirer": "^8.2.4",
-    "mysql2": "^3.6.2",
-    "cfonts": "^3.2.0"
+    "mysql2": "^3.6.2"
   }
 }
